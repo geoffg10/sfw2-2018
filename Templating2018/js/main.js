@@ -61,7 +61,7 @@ $(document).ready(function(){
 										console.log(r.user.id)//getting the user id
 			container.html(h) 
 			$('#welcomeUser').html('<p class="welcomeUser">'+r.user.user_n+'</p>')
-getProjects(appCode);
+loadDashboard(appCode);
 //		getTasks();
 		});
         
@@ -124,6 +124,17 @@ function register(email,username,password){
 			}
 		});
 }
+    function loadDashboard(appCode){
+         $.get('templates/app.html', function(html){
+                    var project_tmpl = $(html).find('#projectTemplate').html();
+                    $.template('project', project_tmpl);
+//                    var html = $.render(response.projects, 'project');
+                    $("#mainWrapper").append(project_tmpl)
+             getProjects(appCode)
+                })
+        
+    }
+    
     function getProjects(appCode){
         $.ajax({
 			url: 'xhr/get_projects.php',
@@ -135,7 +146,8 @@ function register(email,username,password){
                         var allProjects = response.projects[i]
 //                        console.log("all Proj:",allProjects)
 			         }
-                    var project_tmpl = $(html).find('#projectTemplate').html();
+                    console.log(response.projects)
+                    var project_tmpl = $(html).find('#projectList_Template').html();
                     $.template('project', project_tmpl);
                     var html = $.render(response.projects, 'project');
                     $(".projectsData").append(html)
@@ -143,6 +155,32 @@ function register(email,username,password){
 		  }
         })
     }
+    
+    
+        function getProjectDetailsPage(projectClicked){
+            $("#mainWrapper").html('')
+            $.ajax({
+			url: 'xhr/get_projects.php',
+			type: 'get',
+			dataType: 'json',
+			 success: function(response){
+                $.get('templates/app.html', function(html){
+                    for(var i =0; i<response.projects.length; i++){
+                        var allProjects = response.projects[i]
+                           if(allProjects.id == projectClicked){
+                               var projectSelcted = allProjects
+                               var project_tmpl = $(html).find('#projectDetailsPg').html();
+                                $.template('project', project_tmpl);
+                                var html = $.render(projectSelcted, 'project');
+                                $("#mainWrapper").append(html)
+                           }else{
+
+                           }//end of else
+                    }//end of forloop
+			     })// end of get template
+		      }//end of success
+            })//end of ajax
+        }//end of function
     
     function getTasks(projectClicked){
         $.ajax({
@@ -153,12 +191,16 @@ function register(email,username,password){
 				projectID: projectClicked
 			},
 			success: function(response){
-            $.get('templates/projectDetails.html', function(html){
+            $.get('templates/app.html', function(html){
                 for(var i =0; i<response.tasks.length; i++){
                         var allTasks = response.tasks[i]
-                        console.log("all Proj:", allTasks)
+                        console.log("all tasks:", allTasks)
 			         }
 //				console.log("tasks",response)
+                 var task_tmpl = $(html).find('#taskData').html();
+                    $.template('tasks', task_tmpl);
+                    var html = $.render(response.tasks, 'tasks');
+                    $("#tasksData").append(html)
                 
 			})
             }
@@ -193,9 +235,13 @@ $(document).on('click', '.logOutBtn', function(){
     
 $(document).on('click', ".projectRow", function(e){
     var projectClicked = this.id
-     console.log(this)
+    getProjectDetailsPage(projectClicked)
     getTasks(projectClicked)
     
+});
+$(document).on('click', '.backDashboard', function(){
+    console.log("hello")
+    checkLoginState()
 });
 
 	

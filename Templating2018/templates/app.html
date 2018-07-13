@@ -8,7 +8,7 @@
 <div>
 
 	<script type="text/template" id="template_app">
-	           <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css">
+	           <!--<link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css">-->
 
         <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
@@ -116,8 +116,16 @@
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <main role="main" id="mainWrapper" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          
+          
+        </main>
+      </div>
+    </div>
+	
+	</script>
+	<script type="text/template" id="projectTemplate">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
             <h1 class="h2 pgTitle">Dashboard</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
@@ -148,35 +156,75 @@
             </table>
 
           </div>
-          
-        </main>
-      </div>
-    </div>
+
+    
+    </script>
 	
-	</script>
-	<script type="text/template" id="projectTemplate">
-        <tr id="{{=id}}" class="projectRow">
+	<script type="text/template" id="projectList_Template">
+	
+		<!-- repeatable html for task menu -->
+                <tr id="{{=id}}" class="projectRow">
             <td class="projNameTD">{{=projectName}}</td>
             <td class="projDescTD">{{=projectDescription}}</td>
             <td class="projStartTD">{{=startDate}}</td>
             <td class="projDueTD">{{=dueDate}}</td>
             <td class="projStatusTD">{{=status}}</td>
         </tr>
+	
+	</script>
+	
+	
+	<script type="text/template" id="projectDetailsPg">
+	
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">{{=projectName}}</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary backDashboard">Back to Dashboard</button>
+              </div>
+
+            </div>
+            
+          </div>
+          <div class="row">
+                                <div class="col-md-12">
+                                <h4>Project Details</h4>
+                                <p>{{=projectDescription}}</p> 
+                                </div>
+                            </div>
+          <div class="taskTableWrap">
+              <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="taskNameTH">Task Name</th>
+                        <th class="taskDescTH">Task Desc</th>
+                        <th class="taskStartTH">Start Date</th>
+                        <th class="taskDueTH">Due Date</th>
+                        <th class="taskStatusTH">Status</th>
+                    </tr>
+              </thead>
+              <tbody id="tasksData">
+              
+              </tbody>
+            </table>
+
+          </div>
+	
+	</script>
     
+    <script type="text/template" id="taskTable">
+      
     </script>
-	
-	<script type="text/template" id="template_task_link">
-	
-		<!-- repeatable html for task menu -->
-	
-	</script>
-	
-	
-	<script type="text/template" id="template_task_view">
-	
-		<!-- repeatable html for full task data in list -->
-	
-	</script>
+    
+    <script type="text/template" id="taskData">
+        <tr id="{{=id}}" class="taskRow">
+            <td class="taskNameTD">{{=taskName}}</td>
+            <td class="taskDescTD">{{=taskDescription}}</td>
+            <td class="taskStartTD">{{=startDate}}</td>
+            <td class="taskDueTD">{{=dueDate}}</td>
+            <td class="taskStatusTD">{{=status}}</td>
+        </tr>
+    </script>
 	
 	
 	<!-- more component templates here -->
